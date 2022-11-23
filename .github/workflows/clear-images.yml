@@ -10,7 +10,7 @@ jobs:
     name: A job to remove images
     steps:
       - name: Checking out our code
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
       - name: Remove the images
         uses: stevemar/image-deleter@v1.0.1
       - name: Create Pull Request
@@ -18,11 +18,21 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           commit-message: Remove unused images
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: Images-Fix
+          delete-branch: false
           title: '[Automated PR] Remove unused images'
-          body: |
-            Found a few images that can be removed
-
-            [1]: https://github.com/stevemar/image-deleter
+          body:  |
+              Found a few images that can be removed
+              
+              [1]: https://github.com/stevemar/image-deleter
+          labels: |
+            enhancement
+            help wanted
+          assignees: LoneDev6
+          reviewers: LoneDev6
       - name: Check outputs
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
